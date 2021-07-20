@@ -4,49 +4,33 @@ agent any
         
         stage ('Build') { 
             steps{
-                echo "Building the test automation for Ali Express Demo"
-
-            }
-        }
-        
-        stage('Test') {
-            steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    sh "mvn clean install"
+                echo("Building")
                 }
             }
-        }
-                
-     
-        stage('Publish Allure Reports') {
-           steps {
-                script {
-                    allure([
-                        includeProperties: false,
-                        jdk: '',
-                        properties: [],
-                        reportBuildPolicy: 'ALWAYS',
-                        results: [[path: '/allure-results']]
-                    ])
-                }
-            }
-        }
-        
-        
-        stage('Publish Extent Report'){
+            
+            stage ('Deploy DEV') { 
             steps{
-                     publishHTML([allowMissing: false,
-                                  alwaysLinkToLastBuild: false, 
-                                  keepAll: false, 
-                                  reportDir: 'build', 
-                                  reportFiles: 'TestExecutionReport.html', 
-                                  reportName: 'HTML Extent Report', 
-                                  reportTitles: ''])
+                echo("Dev deployment")
+                }
             }
+            
+            stage ('Deploy QA') { 
+            steps{
+                echo("QA deployment")
+                }
+            }
+            
+            stage ('Sanity Test') { 
+            steps{
+                echo("sanity test on stage")
+                }
+            }
+            
+            stage ('Deploy Prod') { 
+            steps{
+                echo("Prod deployment")
+                }
+            }
+            
         }
-        
-        
-        
-    }
-
- }
+}         
