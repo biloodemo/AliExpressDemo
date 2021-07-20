@@ -4,7 +4,7 @@ agent any
         
         stage ('Build') { 
             steps{
-                echo "Building the test automation for demo cart app"
+                echo "Building the test automation for Ali Express Demo"
 
             }
         }
@@ -18,6 +18,19 @@ agent any
         }
                 
      
+        stage('Publish Allure Reports') {
+           steps {
+                script {
+                    allure([
+                        includeProperties: false,
+                        jdk: '',
+                        properties: [],
+                        reportBuildPolicy: 'ALWAYS',
+                        results: [[path: '/allure-results']]
+                    ])
+                }
+            }
+        }
         
         
         stage('Publish Extent Report'){
